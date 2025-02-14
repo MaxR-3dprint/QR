@@ -9,13 +9,13 @@
 <body>
     <h2>QR Code Generator</h2>
     <form id="qrForm">
-        <input type="text" id="name" placeholder="Name" required><br>
-        <input type="text" id="phone" placeholder="Telefonnummer" required><br>
-        <input type="email" id="email" placeholder="E-Mail" required><br>
-        <input type="text" id="address" placeholder="Adresse" required><br>
-        <input type="text" id="company" placeholder="Firma" required><br>
-        <input type="url" id="website1" placeholder="Webseite 1" required><br>
-        <input type="url" id="website2" placeholder="Webseite 2" required><br>
+        <input type="text" id="name" placeholder="Name"><br>
+        <input type="text" id="phone" placeholder="Telefonnummer"><br>
+        <input type="email" id="email" placeholder="E-Mail"><br>
+        <input type="text" id="address" placeholder="Adresse"><br>
+        <input type="text" id="company" placeholder="Firma"><br>
+        <input type="url" id="website1" placeholder="Webseite 1"><br>
+        <input type="url" id="website2" placeholder="Webseite 2"><br>
         <button type="submit">QR Code generieren</button>
     </form>
     <div id="qrcode"></div>
@@ -23,22 +23,28 @@
     <script>
         document.getElementById('qrForm').addEventListener('submit', function(event) {
             event.preventDefault();
-            let name = document.getElementById('name').value;
-            let phone = document.getElementById('phone').value;
-            let email = document.getElementById('email').value;
-            let address = document.getElementById('address').value;
-            let company = document.getElementById('company').value;
-            let website1 = document.getElementById('website1').value;
-            let website2 = document.getElementById('website2').value;
+            let fields = ['name', 'phone', 'email', 'address', 'company', 'website1', 'website2'];
+            let qrDataArray = [];
             
-            let qrData = `Name: ${name}\nTelefon: ${phone}\nE-Mail: ${email}\nAdresse: ${address}\nFirma: ${company}\nWebseite 1: ${website1}\nWebseite 2: ${website2}`;
+            fields.forEach(id => {
+                let value = document.getElementById(id).value.trim();
+                if (value) {
+                    qrDataArray.push(`${id.charAt(0).toUpperCase() + id.slice(1)}: ${value}`);
+                }
+            });
+            
+            let qrData = qrDataArray.join('\n');
             
             document.getElementById('qrcode').innerHTML = "";
-            new QRCode(document.getElementById('qrcode'), {
-                text: qrData,
-                width: 256,
-                height: 256
-            });
+            if (qrDataArray.length > 0) {
+                new QRCode(document.getElementById('qrcode'), {
+                    text: qrData,
+                    width: 256,
+                    height: 256
+                });
+            } else {
+                document.getElementById('qrcode').innerHTML = "Bitte mindestens ein Feld ausfüllen.";
+            }
         });
     </script>
 </body>
