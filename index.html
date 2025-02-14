@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <h2>QR Code Generator</h2>
+    <form id="qrForm">
+        <input type="text" id="name" placeholder="Name" required><br>
+        <input type="text" id="phone" placeholder="Telefonnummer" required><br>
+        <input type="email" id="email" placeholder="E-Mail" required><br>
+        <input type="text" id="address" placeholder="Adresse" required><br>
+        <input type="text" id="company" placeholder="Firma" required><br>
+        <input type="url" id="website1" placeholder="Webseite 1" required><br>
+        <input type="url" id="website2" placeholder="Webseite 2" required><br>
+        <button type="submit">QR Code generieren</button>
+    </form>
+    <div id="qrcode"></div>
+    
+    <script>
+        document.getElementById('qrForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let name = document.getElementById('name').value;
+            let phone = document.getElementById('phone').value;
+            let email = document.getElementById('email').value;
+            let address = document.getElementById('address').value;
+            let company = document.getElementById('company').value;
+            let website1 = document.getElementById('website1').value;
+            let website2 = document.getElementById('website2').value;
+            
+            let qrData = `Name: ${name}\nTelefon: ${phone}\nE-Mail: ${email}\nAdresse: ${address}\nFirma: ${company}\nWebseite 1: ${website1}\nWebseite 2: ${website2}`;
+            
+            document.getElementById('qrcode').innerHTML = "";
+            new QRCode(document.getElementById('qrcode'), {
+                text: qrData,
+                width: 256,
+                height: 256
+            });
+        });
+    </script>
+</body>
+</html>
